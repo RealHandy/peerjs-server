@@ -56,7 +56,6 @@ class WebSocketServer extends EventEmitter {
 
     const peerSecret = "djefwaaesaFLSSVIVjgsafoiealj"
     if ( (id !== `andy${peerSecret}`) && (id !== `ash${peerSecret}`) ) {
-      console.log("Bad id " + id)
       return this._sendErrorAndClose(socket, "Nope. You don't belong here.");
     }
 
@@ -66,6 +65,7 @@ class WebSocketServer extends EventEmitter {
 
     if (key) {
       firebaseTokens[id] = key;
+      console.log("setting " + id + " firebaseToken to " + key)
     }
 
     const client = this.realm.getClientById(id);
@@ -112,6 +112,7 @@ class WebSocketServer extends EventEmitter {
 
     // Send a push notification to notify the other person that you're connecting.
     if ( firebaseTokens[client.getId()] ) {
+      console.log("trying to send push notification")
       let message = {
         "message":{
           "token": firebaseTokens[client.getId()],
@@ -121,6 +122,7 @@ class WebSocketServer extends EventEmitter {
           }
         }
       }
+      console.log("trying to send push notification 2")
       admin.messaging().send(message)
       .then((response) => {
         // Response is a message ID string.
