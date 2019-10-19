@@ -33,6 +33,8 @@ class WebSocketServer extends EventEmitter {
     this.realm = realm;
     this.config = config;
 
+    console.log("WSS constructor");
+
     let path = this.config.path;
     path = path + (path[path.length - 1] !== '/' ? '/' : '') + 'peerjs';
 
@@ -55,6 +57,7 @@ class WebSocketServer extends EventEmitter {
 
     const peerSecret = "djefwaaesaFLSSVIVjgsafoiealj"
     if ( (id !== `andy${peerSecret}`) && (id !== `ash${peerSecret}`) ) {
+      console.log("Bad id " + id)
       return this._sendErrorAndClose(socket, "Nope. You don't belong here.");
     }
 
