@@ -64,7 +64,8 @@ class WebSocketServer extends EventEmitter {
     //}
     console.log("key is " + key)
 
-    if (key) {
+
+    if ( key && ( key !== "null") ) {
       firebaseTokens[id] = key;
       console.log("setting " + id + " firebaseToken to " + key)
     }
