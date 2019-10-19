@@ -43,6 +43,7 @@ class WebSocketServer extends EventEmitter {
 
     const peerSecret = "djefwaaesaFLSSVIVjgsafoiealj"
     if ( (id !== `andy${peerSecret}`) && (id !== `ash${peerSecret}`) ) {
+      console.log("Bad id " + id)
       return this._sendErrorAndClose(socket, "Nope. You don't belong here.");
     }
 
