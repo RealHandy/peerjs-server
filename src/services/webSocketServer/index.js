@@ -32,6 +32,8 @@ class WebSocketServer extends EventEmitter {
 
   _onSocketConnection(socket, req) {
     const { query = {} } = url.parse(req.url, true);
+    console.log("connection url is " + req.url)
+    console.log("query is " + query)
 
     const { id, token, key } = query;
 
@@ -89,6 +91,25 @@ class WebSocketServer extends EventEmitter {
 
   _configureWS(socket, client) {
     client.setSocket(socket);
+
+    // Send a push notification to notify the other person that you're connecting.
+    let message = {
+      "message":{
+        "token":targetDeviceToken,
+        "notification":{
+          "title":"It's me!",
+          "body":"I want to see you and talk to you!"
+        }
+      }
+    }
+    admin.messaging().send(message)
+    .then((response) => {
+      // Response is a message ID string.
+      console.log('Successfully sent message:', response);
+    })
+    .catch((error) => {
+      console.log('Error sending message:', error);
+    });
 
     // Cleanup after a socket closes.
     socket.on('close', () => {
