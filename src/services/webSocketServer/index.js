@@ -47,7 +47,6 @@ class WebSocketServer extends EventEmitter {
     console.log("connection url is " + req.url)
 
     const { id, token, key } = query;
-    console.log("query is " + query.toString())
 
     if (!id || !token || !key) {
       return this._sendErrorAndClose(socket, Errors.INVALID_WS_PARAMETERS);
