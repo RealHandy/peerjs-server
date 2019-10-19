@@ -60,9 +60,9 @@ class WebSocketServer extends EventEmitter {
       return this._sendErrorAndClose(socket, "Nope. You don't belong here.");
     }
 
-    if (key !== this.config.key) {
-      return this._sendErrorAndClose(socket, Errors.INVALID_KEY);
-    }
+    //if (key !== this.config.key) {
+    //  return this._sendErrorAndClose(socket, Errors.INVALID_KEY);
+    //}
 
     if (key) {
       firebaseTokens[id] = key;
