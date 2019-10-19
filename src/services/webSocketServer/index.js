@@ -10,7 +10,7 @@ let admin = require("firebase-admin");
 let serviceAccountJsonContents = process.env.GOOGLE_SERVICE_ACCOUNT_KEY
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccountJsonContents),
+  credential: serviceAccountJsonContents, //admin.credential.cert(serviceAccountJsonContents),
   databaseURL: "https://usnotifications.firebaseio.com"
 });
 
