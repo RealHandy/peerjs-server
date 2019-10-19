@@ -33,8 +33,6 @@ class WebSocketServer extends EventEmitter {
     this.realm = realm;
     this.config = config;
 
-    console.log("WSS constructor");
-
     let path = this.config.path;
     path = path + (path[path.length - 1] !== '/' ? '/' : '') + 'peerjs';
 
@@ -47,9 +45,9 @@ class WebSocketServer extends EventEmitter {
   _onSocketConnection(socket, req) {
     const { query = {} } = url.parse(req.url, true);
     console.log("connection url is " + req.url)
-    console.log("query is " + query)
 
     const { id, token, key } = query;
+    console.log("query is " + query.toString())
 
     if (!id || !token || !key) {
       return this._sendErrorAndClose(socket, Errors.INVALID_WS_PARAMETERS);
