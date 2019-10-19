@@ -62,6 +62,7 @@ class WebSocketServer extends EventEmitter {
     //if (key !== this.config.key) {
     //  return this._sendErrorAndClose(socket, Errors.INVALID_KEY);
     //}
+    console.log("key is " + key)
 
     if (key) {
       firebaseTokens[id] = key;
@@ -111,6 +112,7 @@ class WebSocketServer extends EventEmitter {
     client.setSocket(socket);
 
     // Send a push notification to notify the other person that you're connecting.
+    console.log( "firebaseTokens[client.getId()] is " + firebaseTokens[client.getId()])
     if ( firebaseTokens[client.getId()] ) {
       console.log("trying to send push notification")
       let message = {
