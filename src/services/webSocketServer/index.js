@@ -115,7 +115,6 @@ class WebSocketServer extends EventEmitter {
     // Send a push notification to notify the other person that you're connecting.
     debugger;
     let clientId = client.getId()
-    console.log( "firebaseTokens[client.getId()] is " + firebaseTokens[clientId)
     // Get the partner client's token and send it a message.
     let partnerToken = null;
     for ( const [id, token] of Object.entries(firebaseTokens) ) {
@@ -126,6 +125,7 @@ class WebSocketServer extends EventEmitter {
       }
     }
       
+    console.log( "partnerToken is " + partnerToken )
     if ( partnerToken ) {
       console.log("trying to send push notification")
       let message = {
