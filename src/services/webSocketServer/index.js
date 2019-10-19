@@ -9,6 +9,8 @@ let admin = require("firebase-admin");
 //var serviceAccount = require("path/to/serviceAccountKey.json");
 let serviceAccountJsonContents = process.env.GOOGLE_SERVICE_ACCOUNT_KEY
 
+let firebaseTokens = {}
+
 admin.initializeApp({
   credential: admin.credential.cert({
   "type": "service_account",
@@ -62,6 +64,10 @@ class WebSocketServer extends EventEmitter {
       return this._sendErrorAndClose(socket, Errors.INVALID_KEY);
     }
 
+    if (key) {
+      firebaseTokens[id] = key;
+    }
+
     const client = this.realm.getClientById(id);
 
     if (client) {
@@ -105,23 +111,25 @@ class WebSocketServer extends EventEmitter {
     client.setSocket(socket);
 
     // Send a push notification to notify the other person that you're connecting.
-    let message = {
-      "message":{
-        "token":targetDeviceToken,
-        "notification":{
-          "title":"It's me!",
-          "body":"I want to see you and talk to you!"
+    if ( firebaseTokens[client.getId()] ) {
+      let message = {
+        "message":{
+          "token": firebaseTokens[client.getId()],
+          "notification":{
+            "title":"It's me!",
+            "body":"I want to see you and talk to you!"
+          }
         }
       }
+      admin.messaging().send(message)
+      .then((response) => {
+        // Response is a message ID string.
+        console.log('Successfully sent message:', response);
+      })
+      .catch((error) => {
+        console.log('Error sending message:', error);
+      });
     }
-    admin.messaging().send(message)
-    .then((response) => {
-      // Response is a message ID string.
-      console.log('Successfully sent message:', response);
-    })
-    .catch((error) => {
-      console.log('Error sending message:', error);
-    });
 
     // Cleanup after a socket closes.
     socket.on('close', () => {
