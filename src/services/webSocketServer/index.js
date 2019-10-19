@@ -21,6 +21,8 @@ class WebSocketServer extends EventEmitter {
     this.realm = realm;
     this.config = config;
 
+    console.log("WSS constructor");
+
     let path = this.config.path;
     path = path + (path[path.length - 1] !== '/' ? '/' : '') + 'peerjs';
 
