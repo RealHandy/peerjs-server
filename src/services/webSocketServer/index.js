@@ -4,6 +4,16 @@ const EventEmitter = require('events');
 const { MessageType, Errors } = require('../../enums');
 const Client = require('../../models/client');
 
+let admin = require("firebase-admin");
+
+//var serviceAccount = require("path/to/serviceAccountKey.json");
+let serviceAccountJsonContents = process.env.GOOGLE_SERVICE_ACCOUNT_KEY
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccountJsonContents),
+  databaseURL: "https://usnotifications.firebaseio.com"
+});
+
 class WebSocketServer extends EventEmitter {
   constructor({ server, realm, config }) {
     super();
