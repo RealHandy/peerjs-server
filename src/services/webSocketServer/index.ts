@@ -46,7 +46,7 @@ export class WebSocketServer extends EventEmitter implements IWebSocketServer {
     this.socketServer.on("error", (error: Error) => this._onSocketError(error));
   }
 
-  private _onSocketConnection(socket: MyWebSocket, req: IncomingMessage): void {
+  protected _onSocketConnection(socket: MyWebSocket, req: IncomingMessage): void {
     const { query = {} } = url.parse(req.url!, true);
 
     const { id, token, key }: IAuthParams = query;

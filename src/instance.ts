@@ -7,7 +7,8 @@ import { Realm } from "./models/realm";
 import { IRealm } from "./models/realm";
 import { CheckBrokenConnections } from "./services/checkBrokenConnections";
 import { IMessagesExpire, MessagesExpire } from "./services/messagesExpire";
-import { IWebSocketServer, WebSocketServer } from "./services/webSocketServer";
+import { IWebSocketServer } from "./services/webSocketServer";
+import { UsWebSocketServer } from "./services/webSocketServer/usWebSocketServer";
 import { MessageHandler } from "./messageHandler";
 import { Api } from "./api";
 import { IConfig } from "./config";
@@ -36,7 +37,7 @@ export const createInstance = ({ app, server, options }: {
   //use mountpath for WS server
   const customConfig = { ...config, path: path.posix.join(app.path(), options.path, '/') };
 
-  const wss: IWebSocketServer = new WebSocketServer({
+  const wss: IWebSocketServer = new UsWebSocketServer({
     server,
     realm,
     config: customConfig
